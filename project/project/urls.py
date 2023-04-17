@@ -21,6 +21,6 @@ from project import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.main_view),
+    path('games', views.main_view, name='main_view'),
     path('games/', include('games.urls')),
 ]
