@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+    games:
+        build: ./project/
+        command: >
+            sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+        ports:
+            - "8081:8000"
+        networks:
+            - db
+        depends_on:
+            db:
+                condition: service_healthy
+        healthcheck:
+            test: ["CMD", "curl", "--fail", "http://localhost:8000/games"]
+            interval: 3s
+            timeout: 5s
+        restart: unless-stopped
+    db:
+        image: postgres:14.7
+        environment:
+            POSTGRES_DB: gamesdb
+            POSTGRES_USER: mikhail
+            POSTGRES_PASSWORD: 1234
+            PGDATA: /var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U mikhail -d gamesdb"]
+            interval: 3s
+            timeout: 5s
+        restart: unless-stopped
+        ports:
+            - "5432:5432"
+        volumes:
+            - /Users/baozorp/Projects/Python/2023-MAI-Backend-M-Shekunow/docker/pgdata:/var/lib/postgresql/data
+        networks:
+            - db
+    nginx:
+        image: nginx:1.21.3
+        ports:
+          - "8080:8080"
+        volumes:
+          - ./project/nginx.conf:/etc/nginx/nginx.conf
+        networks:
+          - db
+        depends_on:
+            games:
+                condition: service_healthy
+
+networks:
+    db:
+        driver: bridge
