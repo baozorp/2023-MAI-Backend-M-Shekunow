@@ -13,7 +13,7 @@ services:
             db:
                 condition: service_healthy
         healthcheck:
-            test: ["CMD", "curl", "--fail", "http://localhost:8000/games"]
+            test: ["CMD", "curl", "--fail", "http://localhost:8000/games/"]
             interval: 3s
             timeout: 5s
         restart: unless-stopped

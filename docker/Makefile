@@ -1,4 +1,4 @@
-.PHONY: build migrate up down start
+.PHONY: build up down migrate
 
 build:
 	docker-compose build
@@ -7,4 +7,4 @@ up:
 down:
 	docker-compose down
 
-start: build up
+migrate: build up
