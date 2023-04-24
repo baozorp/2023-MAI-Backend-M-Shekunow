@@ -1,0 +1,6 @@
+{% block content %}
+   <button onclick="window.location.href='{{ request.scheme }}://{{ request.get_host }}/games/profile'">Профиль</button>
+   <button onclick="window.location.href='{{ request.scheme }}://{{ request.get_host }}/games/categories'">Категории</button>
+   <button onclick="window.location.href='{{ request.scheme }}://{{ request.get_host }}/games/list'">Список игр</button>
+   <button onclick="window.location.href='{{ request.scheme }}://{{ request.get_host }}/games/usergames'">Игры пользователя</button>
+{% endblock %}
