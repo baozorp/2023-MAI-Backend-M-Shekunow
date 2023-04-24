@@ -3,8 +3,7 @@ version: "3.9"
 services:
     games:
         build: ./project/
-        command: >
-            sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+        command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
         ports:
             - "8081:8000"
         networks:
@@ -25,14 +24,14 @@ services:
             POSTGRES_PASSWORD: 1234
             PGDATA: /var/lib/postgresql/data
         healthcheck:
-            test: ["CMD-SHELL", "pg_isready -U mikhail -d gamesdb"]
+            test: ["CMD-SHELL", "echo 'SELECT 1;' | psql -U mikhail -d gamesdb"]
             interval: 3s
             timeout: 5s
         restart: unless-stopped
         ports:
             - "5432:5432"
         volumes:
-            - /Users/baozorp/Projects/Python/2023-MAI-Backend-M-Shekunow/docker/pgdata:/var/lib/postgresql/data
+            - ./pgdata:/var/lib/postgresql/data
         networks:
             - db
     nginx:
